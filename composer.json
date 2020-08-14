@@ -1,0 +1,12 @@
+{
+    "name": "renan/react-like-php",
+    "authors": [
+        {
+            "name": "Renan Liberato",
+            "email": "renan.libsantana@gmail.com"
+        }
+    ],
+    "require": {
+        "firebase/php-jwt": "^5.2"
+    }
+}

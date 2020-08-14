@@ -44,6 +44,22 @@
     <script>
         $(document).ready(function() {
             $('body').bootstrapMaterialDesign();
+            $('form.react-like-action').on('submit', function(e) {
+                const form = $(e.target);
+                e.preventDefault();
+
+                fetch(form.attr('action'), {
+                    method: form.attr('method'),
+                    body: new FormData(form[0])
+                })
+                .then((res) => res.text())
+                .then(function(t) {
+                    console.log(t);
+                    window.location.reload(true);
+                }).catch(function(err) {
+                    console.error(err);
+                });
+            });
         });
     </script>
 </body>

@@ -62,6 +62,17 @@ function historyReducer($state, $action)
     return $state;
 }
 
+function clearReducer($initialState) {
+    return function ($state, $action) use ($initialState) {
+        switch ($action['type']) {
+            case 'CLEAR_STATE':
+                return $initialState;
+            default:
+                return $state;
+        }
+    };
+}
+
 function mainReducer($reducers = [])
 {
     return function ($store, $action) use ($reducers) {
@@ -80,8 +91,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     setcookie(TOKEN_COOKIE_NAME, $jwt);
 
-    $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-    header("Location: " . $actual_link);
+    // $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+    // header("Location: " . $actual_link);
+    echo true;
     exit();
 }
 
@@ -98,9 +110,19 @@ function ActionComponent($props = [])
         unset($params['formAttributes']);
     }
 
+    $classes = 'react-like-action';
+    if (isset($formAttributes['class'])) {
+        $classes .= ' ' . $formAttributes['class'];
+        unset($formAttributes['class']);
+    }
+
     return render('form', [
         'attributes' => array_merge(
-            ['method' => 'post', 'action' => ''],
+            [
+                'method' => 'post',
+                'action' => '',
+                'class' => $classes
+            ],
             $formAttributes
         ),
         'children' => array_merge(
@@ -211,7 +233,7 @@ function TodoList($props = [])
 function ActionsHistory($props = [])
 {
     $history = $props['history'];
-    usort($history, function($a, $b) {
+    usort($history, function ($a, $b) {
         return strtotime($b['timestamp']) - strtotime($a['timestamp']);
     });
 
@@ -237,8 +259,17 @@ function ActionsHistory($props = [])
                                         'children' => "{$action['action']['type']}"
                                     ])
                                 ]),
-                                render('span', ['children' => $action['timestamp']]),
-                                render('span', ['children' => json_encode($action['action'])]),
+                                render('div', [
+                                    'children' => [
+                                        render('span', ['children' => $action['timestamp']]),
+                                        render('span', [
+                                            'attributes' => [
+                                                'style' => 'line-height: 1.5em'
+                                            ],
+                                            'children' => json_encode($action['action'])
+                                        ]),
+                                    ]
+                                ])
                             ]
                         ])
                     ]
@@ -326,10 +357,13 @@ function App($props = [])
             render('div', [
                 'attributes' => [
                     'class' => 'card',
-                    'style' => 'align-self: flex-start; width: 30%; padding: 20px;'
+                    'style' => 'align-self: flex-start; width: 40%; padding: 20px;'
                 ],
                 'children' => [
                     render('h1', ['children' => 'Todo List']),
+                    render('p', [
+                        'children' => 'This app uses some ReactJS and Redux concepts to implement its UI and state management. <br/>It shows us that functional components, actions, and reducers are not exclusive to a libraries, frameworks, or languages. '
+                    ]),
                     NewTodo(),
                     TodoList(['todos' => $props['store']['todos'], 'editing_todo' => $props['store']['ui']['editing_todo']])
                 ]
@@ -337,7 +371,7 @@ function App($props = [])
             render('div', [
                 'attributes' => [
                     'class' => 'card',
-                    'style' => 'align-self: flex-start; width: 30%; padding: 20px;'
+                    'style' => 'align-self: flex-start; width: 40%; padding: 20px;'
                 ],
                 'children' => [
                     render('h1', ['children' => 'Actions history']),

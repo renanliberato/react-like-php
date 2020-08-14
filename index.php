@@ -13,7 +13,8 @@ $initialState = [
     'todos' => [],
     'ui' => [
         'editing_todo' => false
-    ]
+    ],
+    'actions_history' => []
 ];
 
 $store = $initialState;
@@ -26,7 +27,7 @@ if (!isset($_COOKIE[TOKEN_COOKIE_NAME])) {
     $store = json_decode(json_encode((array)\Firebase\JWT\JWT::decode($_COOKIE[TOKEN_COOKIE_NAME], $jwtkey, ['HS256'])), true);
 }
 
-function reducer($state, $action)
+function appReducer($state, $action)
 {
     switch ($action['type']) {
         case 'ADD_TODO':
@@ -54,17 +55,33 @@ function reducer($state, $action)
     }
 }
 
+function historyReducer($state, $action)
+{
+    $state['actions_history'][] = ['timestamp' => date('H:i:s'), 'action' => $action];
+
+    return $state;
+}
+
+function mainReducer($reducers = [])
+{
+    return function ($store, $action) use ($reducers) {
+        return array_reduce($reducers, function ($state, $reducer) use ($action) {
+            return $reducer($state, $action);
+        }, $store);
+    };
+}
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $bodyContent = $_POST;
 
-    $store = reducer($store, $bodyContent);
+    $store = mainReducer([appReducer::class, historyReducer::class])($store, $bodyContent);
 
     $jwt = \Firebase\JWT\JWT::encode($store, $jwtkey);
 
     setcookie(TOKEN_COOKIE_NAME, $jwt);
 
     $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-    header("Location: ".$actual_link);
+    header("Location: " . $actual_link);
     exit();
 }
 
@@ -191,6 +208,46 @@ function TodoList($props = [])
     ]);
 }
 
+function ActionsHistory($props = [])
+{
+    $history = $props['history'];
+    usort($history, function($a, $b) {
+        return strtotime($b['timestamp']) - strtotime($a['timestamp']);
+    });
+
+    return row([
+        'children' => render('ul', [
+            'attributes' => [
+                'class' => 'list-group'
+            ],
+            'children' => array_map(function ($action) use ($props) {
+                return render('li', [
+                    'attributes' => [
+                        'class' => 'list-group-item',
+                        'style' => 'align-items: center; justify-content: space-between;'
+                    ],
+                    'children' => [
+                        render('details', [
+                            'children' => [
+                                render('summary', [
+                                    'attributes' => [
+                                        'style' => 'margin-bottom: 10px'
+                                    ],
+                                    'children' => render('strong', [
+                                        'children' => "{$action['action']['type']}"
+                                    ])
+                                ]),
+                                render('span', ['children' => $action['timestamp']]),
+                                render('span', ['children' => json_encode($action['action'])]),
+                            ]
+                        ])
+                    ]
+                ]);
+            }, $history)
+        ])
+    ]);
+}
+
 function NewTodo($props = [])
 {
     return ActionComponent([
@@ -259,15 +316,34 @@ function EditTodo($props = [])
 
 function App($props = [])
 {
+    $history = $props['store']['actions_history'];
+
     return render('div', [
         'attributes' => [
-            'class' => 'card',
-            'style' => 'align-self: center;  width: 600px; padding: 20px;'
+            'style' => 'flex-direction: row; justify-content: space-evenly;'
         ],
         'children' => [
-            render('h1', ['children' => 'Todo List']),
-            NewTodo(),
-            TodoList(['todos' => $props['store']['todos'], 'editing_todo' => $props['store']['ui']['editing_todo']])
+            render('div', [
+                'attributes' => [
+                    'class' => 'card',
+                    'style' => 'align-self: flex-start; width: 30%; padding: 20px;'
+                ],
+                'children' => [
+                    render('h1', ['children' => 'Todo List']),
+                    NewTodo(),
+                    TodoList(['todos' => $props['store']['todos'], 'editing_todo' => $props['store']['ui']['editing_todo']])
+                ]
+            ]),
+            render('div', [
+                'attributes' => [
+                    'class' => 'card',
+                    'style' => 'align-self: flex-start; width: 30%; padding: 20px;'
+                ],
+                'children' => [
+                    render('h1', ['children' => 'Actions history']),
+                    ActionsHistory(['history' => $history])
+                ]
+            ]),
         ]
     ]);
 }

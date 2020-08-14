@@ -12,12 +12,15 @@
         body {
             padding-top: 20px;
         }
+
         button {
             margin: 0 !important;
         }
+
         form {
             margin-bottom: 0;
         }
+
         div {
             display: flex;
             flex-direction: column;
@@ -28,6 +31,12 @@
 <body>
     <div class="container">
         <?= $app ?>
+        <hr />
+        <div style="flex-direction: row; align-self: center; margin-bottom: 20px;">
+            Created by
+            &nbsp;<a href="https://renanliberato.com.br/en">Renan Liberato</a>
+            &nbsp;|&nbsp;<a href="https://github.com/renanliberato/react-like-php">Github repo</a>
+        </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous"></script>

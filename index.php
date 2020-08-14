@@ -62,11 +62,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $jwt = \Firebase\JWT\JWT::encode($store, $jwtkey);
 
     setcookie(TOKEN_COOKIE_NAME, $jwt);
+
+    $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+    header("Location: ".$actual_link);
+    exit();
 }
 
-function createAction($type, $params, $children)
+function ActionComponent($props = [])
 {
     $formAttributes = [];
+
+    $type = $props['type'];
+    $params = isset($props['params']) ? $props['params'] : [];
+    $children = $props['children'];
 
     if (isset($params['formAttributes'])) {
         $formAttributes = $params['formAttributes'];
@@ -159,21 +167,21 @@ function TodoList($props = [])
                                     'style' => 'flex-direction: row;'
                                 ],
                                 'children' => [
-                                    createAction(
-                                        'EDIT_TODO_SHOW',
-                                        [
+                                    ActionComponent([
+                                        'type' => 'EDIT_TODO_SHOW',
+                                        'params' => [
                                             'id' => $todo['id'],
                                             'formAttributes' => [
                                                 'style' => 'margin-right: 10px;'
                                             ]
                                         ],
-                                        render('button', ['attributes' => ['class' => 'btn btn-outline-primary'], 'children' => 'Edit'])
-                                    ),
-                                    createAction(
-                                        'REMOVE_TODO',
-                                        ['id' => $todo['id']],
-                                        render('button', ['attributes' => ['class' => 'btn btn-outline-primary'], 'children' => 'Remove'])
-                                    ),
+                                        'children' => render('button', ['attributes' => ['class' => 'btn btn-outline-primary'], 'children' => 'Edit'])
+                                    ]),
+                                    ActionComponent([
+                                        'type' => 'REMOVE_TODO',
+                                        'params' => ['id' => $todo['id']],
+                                        'children' => render('button', ['attributes' => ['class' => 'btn btn-outline-primary'], 'children' => 'Remove'])
+                                    ]),
                                 ]
                             ])
                         ]
@@ -185,43 +193,46 @@ function TodoList($props = [])
 
 function NewTodo($props = [])
 {
-    return createAction('ADD_TODO', [], render('div', [
-        'attributes' => [
-            'class' => 'form-group'
-        ],
-        'children' => [
-            render('label', [
-                'children' => 'Title'
-            ]),
-            render('input', [
-                'attributes' => [
-                    'type' => 'text',
-                    'name' => 'name',
-                    'class' => 'form-control'
-                ],
-                'children' => render('button', [
+    return ActionComponent([
+        'type' => 'ADD_TODO',
+        'children' => render('div', [
+            'attributes' => [
+                'class' => 'form-group'
+            ],
+            'children' => [
+                render('label', [
+                    'children' => 'Title'
+                ]),
+                render('input', [
                     'attributes' => [
-                        'style' => 'margin-top: 10px !important;',
-                        'class' => 'btn btn-primary active'
+                        'type' => 'text',
+                        'name' => 'name',
+                        'class' => 'form-control'
                     ],
-                    'children' => 'Add'
+                    'children' => render('button', [
+                        'attributes' => [
+                            'style' => 'margin-top: 10px !important;',
+                            'class' => 'btn btn-primary active'
+                        ],
+                        'children' => 'Add'
+                    ])
                 ])
-            ])
-        ]
-    ]));
+            ]
+        ])
+    ]);
 }
 
 function EditTodo($props = [])
 {
-    return createAction(
-        'EDIT_TODO_SAVE',
-        [
+    return ActionComponent([
+        'type' => 'EDIT_TODO_SAVE',
+        'params' => [
             'id' => $props['todo']['id'],
             'formAttributes' => [
                 'class' => 'form-inline'
             ]
         ],
-        render('div', [
+        'children' => render('div', [
             'attributes' => [
                 'class' => 'form-group',
             ],
@@ -243,7 +254,7 @@ function EditTodo($props = [])
                 ])
             ]
         ])
-    );
+    ]);
 }
 
 function App($props = [])
@@ -251,7 +262,7 @@ function App($props = [])
     return render('div', [
         'attributes' => [
             'class' => 'card',
-            'style' => 'align-self: center;  width: 350px; padding: 20px;'
+            'style' => 'align-self: center;  width: 600px; padding: 20px;'
         ],
         'children' => [
             render('h1', ['children' => 'Todo List']),

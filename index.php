@@ -1,6 +1,8 @@
 <?php
 
 use App\Components\App;
+use App\Screens\ActionHistoryScreen;
+use App\Screens\TodoListScreen;
 use App\Store\ProcessAction;
 use App\Store\Store;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -51,13 +53,9 @@ function renderComponent($componentName, $props)
     return (new $componentName())($props);
 }
 
-$app = renderComponent(App::class, [
-    'store' => $store
-]);
-
-function getTemplate($file)
+function getTemplate($file, $params)
 {
-    global $app;
+    extract($params);
     ob_start();
     include $file;
     return ob_get_clean();
@@ -65,14 +63,32 @@ function getTemplate($file)
 
 $slimApp = AppFactory::create();
 
-$slimApp->get('/', function (Request $request, Response $response, $args) use ($app) {
-    $template = getTemplate('./layout.html.php');
+$slimApp->get('/', function (Request $request, Response $response, $args) use ($store) {
+    $app = renderComponent(TodoListScreen::class, [
+        'store' => $store
+    ]);
+
+    $template = getTemplate('./layout.html.php', [
+        'app' => $app
+    ]);
 
     $response->getBody()->write($template);
     return $response;
 });
 
-$slimApp->post('/', function (Request $request, Response $response, $args) use ($store) {
+$slimApp->get('/history', function (Request $request, Response $response, $args) use ($store) {
+    $app = renderComponent(ActionHistoryScreen::class, [
+        'store' => $store
+    ]);
+    $template = getTemplate('./layout.html.php', [
+        'app' => $app
+    ]);
+
+    $response->getBody()->write($template);
+    return $response;
+});
+
+$slimApp->post('/[{path:.*}]', function (Request $request, Response $response, $args) use ($store) {
     (new ProcessAction(combineReducers([
         new \App\Reducers\ClearReducer(Store::INITIAL_STATE),
         new \App\Reducers\AppReducer(),

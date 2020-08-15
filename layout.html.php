@@ -27,6 +27,47 @@
             flex-direction: column;
         }
     </style>
+    <script src="https://unpkg.com/turbolinks@5.2.0/dist/turbolinks.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js" integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9" crossorigin="anonymous"></script>
+    <script>
+        Turbolinks.start()
+        document.addEventListener("turbolinks:load", function() {
+            if (window.scrollBeforeRedirect) {
+                document.documentElement.scrollTop = document.body.scrollTop = window.scrollBeforeRedirect;
+                window.scrollBeforeRedirect = null;
+            }
+            $('body').bootstrapMaterialDesign();
+            $('input[type=checkbox].react-like-submittable').on('change', (e) => {
+                $('#'+$(e.target).data('form-id')).submit();
+                $('input[type=checkbox].react-like-submittable').off('change');
+            })
+            $('form.react-like-action').on('submit', function(e) {
+                window.scrollBeforeRedirect = document.documentElement.scrollTop || document.body.scrollTop;
+                const form = $(e.target);
+                if (form.data('submitted')) {
+                    return;
+                }
+
+                form.data('submitted', true);
+                e.preventDefault();
+
+                fetch(form.attr('action'), {
+                    method: form.attr('method'),
+                    body: new FormData(form[0])
+                })
+                .then((res) => res.text())
+                .then(function(t) {
+                    console.log(t);
+                    // window.location.reload(true);
+                    Turbolinks.visit("");
+                }).catch(function(err) {
+                    console.error(err);
+                });
+            });
+        });
+    </script>
 </head>
 
 <body>
@@ -39,35 +80,6 @@
             &nbsp;|&nbsp;<a href="https://github.com/renanliberato/react-like-php">Github repo</a>
         </div>
     </div>
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js" integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9" crossorigin="anonymous"></script>
-    <script>
-        $(document).ready(function() {
-            $('body').bootstrapMaterialDesign();
-            $('form.react-like-action').on('submit', function(e) {
-                const form = $(e.target);
-                if (form.submitted) {
-                    return;
-                }
-                
-                form.submitted = true;
-                e.preventDefault();
-
-                fetch(form.attr('action'), {
-                    method: form.attr('method'),
-                    body: new FormData(form[0])
-                })
-                .then((res) => res.text())
-                .then(function(t) {
-                    console.log(t);
-                    window.location.reload(true);
-                }).catch(function(err) {
-                    console.error(err);
-                });
-            });
-        });
-    </script>
 </body>
 
 </html>

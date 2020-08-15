@@ -219,7 +219,8 @@ function TodoList($props = [])
                                             'attributes' => array_merge(
                                                 [
                                                     'type' => 'checkbox',
-                                                    'onChange' => '$(\'#formtoggle' . $todo['id'] . '\').submit()'
+                                                    'class' => 'react-like-submittable',
+                                                    'data-form-id' => 'formtoggle' . $todo['id']
                                                 ],
                                                 $todo['completed'] ? ['checked' => true] : []
                                             ),

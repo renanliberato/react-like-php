@@ -39,9 +39,9 @@
                 window.scrollBeforeRedirect = null;
             }
             $('body').bootstrapMaterialDesign();
-            $('input[type=checkbox].react-like-submittable').on('change', (e) => {
+            $('input[type=checkbox].react-like-submittable').on('click', (e) => {
                 $('#'+$(e.target).data('form-id')).submit();
-                $('input[type=checkbox].react-like-submittable').off('change');
+                $('input[type=checkbox].react-like-submittable').off('click');
             })
             $('form.react-like-action').on('submit', function(e) {
                 window.scrollBeforeRedirect = document.documentElement.scrollTop || document.body.scrollTop;
@@ -59,9 +59,7 @@
                 })
                 .then((res) => res.text())
                 .then(function(t) {
-                    console.log(t);
-                    // window.location.reload(true);
-                    Turbolinks.visit("");
+                    Turbolinks.visit(document.location.href);
                 }).catch(function(err) {
                     console.error(err);
                 });

@@ -387,11 +387,19 @@ function App($props = [])
 {
     $history = $props['store']['actions_history'];
 
+    $storeLimitReached = strlen(urlencode(json_encode($props['store']))) > 4000 ? 'true' : 'false';
+
     return render('div', [
         'children' => [
+            $storeLimitReached != 'true' ? '' : render('div', [
+                'attributes' => [
+                    'class' => 'alert alert-warning'
+                ],
+                'children' => "Cookie limit is (maybe almost) reached, some actions might not work."
+            ]),
             render('div', [
                 'attributes' => [
-                    'style' => 'align-self: flex-end; margin-right: 6.5%; margin-bottom: 10px;'
+                    'style' => 'margin-bottom: 10px;'
                 ],
                 'children' => ActionComponent([
                     'type' => 'CLEAR_STATE',
@@ -405,13 +413,13 @@ function App($props = [])
             ]),
             render('div', [
                 'attributes' => [
-                    'style' => 'flex-direction: row; justify-content: space-evenly;'
+                    'style' => 'flex-direction: row; justify-content: space-between;'
                 ],
                 'children' => [
                     render('div', [
                         'attributes' => [
                             'class' => 'card',
-                            'style' => 'align-self: flex-start; width: 40%; padding: 20px;'
+                            'style' => 'align-self: flex-start; width: 45%; padding: 20px;'
                         ],
                         'children' => [
                             render('h1', ['children' => 'Todo List']),
@@ -425,7 +433,7 @@ function App($props = [])
                     render('div', [
                         'attributes' => [
                             'class' => 'card',
-                            'style' => 'align-self: flex-start; width: 40%; padding: 20px;'
+                            'style' => 'align-self: flex-start; width: 45%; padding: 20px;'
                         ],
                         'children' => [
                             render('h1', ['children' => 'Actions history']),

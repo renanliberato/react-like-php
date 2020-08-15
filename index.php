@@ -62,7 +62,8 @@ function historyReducer($state, $action)
     return $state;
 }
 
-function clearReducer($initialState) {
+function clearReducer($initialState)
+{
     return function ($state, $action) use ($initialState) {
         switch ($action['type']) {
             case 'CLEAR_STATE':
@@ -84,8 +85,7 @@ function mainReducer($reducers = [])
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $bodyContent = $_POST;
-
-    $store = mainReducer([appReducer::class, historyReducer::class])($store, $bodyContent);
+    $store = mainReducer([clearReducer($initialState), appReducer::class, historyReducer::class])($store, $bodyContent);
 
     $jwt = \Firebase\JWT\JWT::encode($store, $jwtkey);
 
@@ -214,7 +214,7 @@ function TodoList($props = [])
                                                 'style' => 'margin-right: 10px;'
                                             ]
                                         ],
-                                        'children' => render('button', ['attributes' => ['class' => 'btn btn-outline-primary'], 'children' => 'Edit'])
+                                        'children' => render('button', ['attributes' => ['class' => 'btn btn-outline-primary', 'style' => 'margin-right: 10px;'], 'children' => 'Edit'])
                                     ]),
                                     ActionComponent([
                                         'type' => 'REMOVE_TODO',
@@ -240,7 +240,7 @@ function ActionsHistory($props = [])
     return row([
         'children' => render('ul', [
             'attributes' => [
-                'class' => 'list-group'
+                'class' => 'list-group',
             ],
             'children' => array_map(function ($action) use ($props) {
                 return render('li', [
@@ -317,21 +317,31 @@ function EditTodo($props = [])
         'params' => [
             'id' => $props['todo']['id'],
             'formAttributes' => [
-                'class' => 'form-inline'
+                'class' => 'form-inline',
+                'style' => 'width: 100%;'
             ]
         ],
         'children' => render('div', [
             'attributes' => [
                 'class' => 'form-group',
+                'style' => 'width: 100%; flex-direction: row; justify-content: space-between; align-items: flex-end;'
             ],
             'children' => [
-                render('label', ['children' => 'Name']),
-                render('input', [
+                render('div', [
                     'attributes' => [
-                        'type' => 'text',
-                        'name' => 'name',
-                        'value' => $props['todo']['name'],
-                        'class' => 'form-control'
+                        'style' => 'flex: 1; align-items: flex-start;',
+                    ],
+                    'children' => [
+                        render('label', ['children' => 'Name']),
+                        render('input', [
+                            'attributes' => [
+                                'type' => 'text',
+                                'name' => 'name',
+                                'value' => $props['todo']['name'],
+                                'class' => 'form-control',
+                                'style' => 'align-self: stretch;'
+                            ]
+                        ]),
                     ]
                 ]),
                 render('button', [
@@ -350,34 +360,52 @@ function App($props = [])
     $history = $props['store']['actions_history'];
 
     return render('div', [
-        'attributes' => [
-            'style' => 'flex-direction: row; justify-content: space-evenly;'
-        ],
         'children' => [
             render('div', [
                 'attributes' => [
-                    'class' => 'card',
-                    'style' => 'align-self: flex-start; width: 40%; padding: 20px;'
+                    'style' => 'align-self: flex-end; margin-right: 6.5%; margin-bottom: 10px;'
                 ],
-                'children' => [
-                    render('h1', ['children' => 'Todo List']),
-                    render('p', [
-                        'children' => 'This app uses some ReactJS and Redux concepts to implement its UI and state management. <br/>It shows us that functional components, actions, and reducers are not exclusive to a libraries, frameworks, or languages. '
-                    ]),
-                    NewTodo(),
-                    TodoList(['todos' => $props['store']['todos'], 'editing_todo' => $props['store']['ui']['editing_todo']])
-                ]
+                'children' => ActionComponent([
+                    'type' => 'CLEAR_STATE',
+                    'children' => render('button', [
+                        'attributes' => [
+                            'class' => 'btn btn-primary active',
+                        ],
+                        'children' => "Clear state"
+                    ])
+                ]),
             ]),
             render('div', [
                 'attributes' => [
-                    'class' => 'card',
-                    'style' => 'align-self: flex-start; width: 40%; padding: 20px;'
+                    'style' => 'flex-direction: row; justify-content: space-evenly;'
                 ],
                 'children' => [
-                    render('h1', ['children' => 'Actions history']),
-                    ActionsHistory(['history' => $history])
+                    render('div', [
+                        'attributes' => [
+                            'class' => 'card',
+                            'style' => 'align-self: flex-start; width: 40%; padding: 20px;'
+                        ],
+                        'children' => [
+                            render('h1', ['children' => 'Todo List']),
+                            render('p', [
+                                'children' => 'This app uses some ReactJS and Redux concepts to implement its UI and state management. <br/>It shows us that functional components, actions, and reducers are not exclusive to a libraries, frameworks, or languages. '
+                            ]),
+                            NewTodo(),
+                            TodoList(['todos' => $props['store']['todos'], 'editing_todo' => $props['store']['ui']['editing_todo']])
+                        ]
+                    ]),
+                    render('div', [
+                        'attributes' => [
+                            'class' => 'card',
+                            'style' => 'align-self: flex-start; width: 40%; padding: 20px;'
+                        ],
+                        'children' => [
+                            render('h1', ['children' => 'Actions history']),
+                            ActionsHistory(['history' => $history])
+                        ]
+                    ]),
                 ]
-            ]),
+            ])
         ]
     ]);
 }

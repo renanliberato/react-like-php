@@ -14,11 +14,12 @@
         }
 
         button {
-            margin: 0 !important;
+            margin-bottom: 0!important;
         }
 
         form {
             margin-bottom: 0;
+            margin-right: 0!important;
         }
 
         div {

@@ -395,7 +395,7 @@ function App($props = [])
                 'attributes' => [
                     'class' => 'alert alert-warning'
                 ],
-                'children' => "Cookie limit is (maybe almost) reached, some actions might not work."
+                'children' => "Cookie limit is (maybe almost) reached, some actions might not work. Press 'Clear State' button to keep using the app."
             ]),
             render('div', [
                 'attributes' => [

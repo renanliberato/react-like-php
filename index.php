@@ -31,15 +31,22 @@ function appReducer($state, $action)
 {
     switch ($action['type']) {
         case 'ADD_TODO':
-            $state['todos'][] = ['id' => count($state['todos']) + 1, 'name' => $action['name']];
+            $state['todos'][] = ['id' => count($state['todos']) + 1, 'name' => $action['name'], 'completed' => false];
             return $state;
-        case 'EDIT_TODO_SHOW':
-            $state['ui']['editing_todo'] = $action['id'];
+        case 'TOGGLE_TODO':
+            foreach ($state['todos'] as $key => $todo) {
+                if ($todo['id'] == $action['id']) {
+                    $state['todos'][$key]['completed'] = $action['completed'];
+                }
+            }
             return $state;
         case 'REMOVE_TODO':
             $state['todos'] = array_filter($state['todos'], function ($i) use ($action) {
                 return $i['id'] != $action['id'];
             });
+            return $state;
+        case 'EDIT_TODO_SHOW':
+            $state['ui']['editing_todo'] = $action['id'];
             return $state;
         case 'EDIT_TODO_SAVE':
             foreach ($state['todos'] as $key => $todo) {
@@ -168,19 +175,9 @@ function render($element = "span", $props = [])
     return "<{$element} {$attributes}>{$children}</{$element}>";
 }
 
-function row($children)
-{
-    return render('div', [
-        'attributes' => [
-            'class' => 'row',
-        ],
-        'children' => $children
-    ]);
-}
-
 function TodoList($props = [])
 {
-    return row([
+    return render('div', [
         'children' => render('ul', [
             'attributes' => [
                 'class' => 'list-group'
@@ -200,7 +197,37 @@ function TodoList($props = [])
                             'style' => 'align-items: center; justify-content: space-between;'
                         ],
                         'children' => [
-                            render('span', ['children' => $todo['name']]),
+                            ActionComponent([
+                                'type' => 'TOGGLE_TODO',
+                                'params' => [
+                                    'id' => $todo['id'],
+                                    'completed' => !$todo['completed'],
+                                    'formAttributes' => [
+                                        'id' => 'formtoggle' . $todo['id'],
+                                    ],
+                                ],
+                                'children' => render('div', [
+                                    'attributes' => [
+                                        'class' => 'checkbox',
+                                        'style' => 'margin-top: -10px; margin-right: -15px;'
+                                    ],
+                                    'children' => render('label', [
+                                        'attributes' => [
+                                            'class' => 'checkbox-inline'
+                                        ],
+                                        'children' => render('input', [
+                                            'attributes' => array_merge(
+                                                [
+                                                    'type' => 'checkbox',
+                                                    'onChange' => '$(\'#formtoggle' . $todo['id'] . '\').submit()'
+                                                ],
+                                                $todo['completed'] ? ['checked' => true] : []
+                                            ),
+                                        ])
+                                    ])
+                                ]),
+                            ]),
+                            render('span', ['attributes' => ['style' => 'flex: 1;'], 'children' => $todo['name']]),
                             render('div', [
                                 'attributes' => [
                                     'style' => 'flex-direction: row;'
@@ -237,7 +264,7 @@ function ActionsHistory($props = [])
         return strtotime($b['timestamp']) - strtotime($a['timestamp']);
     });
 
-    return row([
+    return render('div', [
         'children' => render('ul', [
             'attributes' => [
                 'class' => 'list-group',

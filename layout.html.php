@@ -27,17 +27,11 @@
             flex-direction: column;
         }
     </style>
-    <script src="https://unpkg.com/turbolinks@5.2.0/dist/turbolinks.js"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js" integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9" crossorigin="anonymous"></script>
     <script>
-        Turbolinks.start()
-        document.addEventListener("turbolinks:load", function() {
-            if (window.scrollBeforeRedirect) {
-                document.documentElement.scrollTop = document.body.scrollTop = window.scrollBeforeRedirect;
-                window.scrollBeforeRedirect = null;
-            }
+        $(document).ready(() => {
             $('body').bootstrapMaterialDesign();
             $('input[type=checkbox].react-like-submittable').on('click', (e) => {
                 $('#'+$(e.target).data('form-id')).submit();
@@ -59,7 +53,7 @@
                 })
                 .then((res) => res.text())
                 .then(function(t) {
-                    Turbolinks.visit(document.location.href);
+                    document.location.reload(true);
                 }).catch(function(err) {
                     console.error(err);
                 });

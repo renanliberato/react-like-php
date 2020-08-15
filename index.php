@@ -98,9 +98,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     setcookie(TOKEN_COOKIE_NAME, $jwt);
 
-    // $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
-    // header("Location: " . $actual_link);
-    echo true;
+    $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+    header("Location: " . $actual_link);
+    // echo true;
     exit();
 }
 

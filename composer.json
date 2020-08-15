@@ -8,5 +8,8 @@
     ],
     "require": {
         "firebase/php-jwt": "^5.2"
+    },
+    "autoload": {
+        "psr-4": {"App\\": "src/"}
     }
 }

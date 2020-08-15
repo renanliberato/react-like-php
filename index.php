@@ -3,6 +3,9 @@
 use App\Components\App;
 use App\Store\ProcessAction;
 use App\Store\Store;
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Slim\Factory\AppFactory;
 
 require './vendor/autoload.php';
 
@@ -20,16 +23,6 @@ function combineReducers($reducers = [])
             return $reducer($state, $action);
         }, $store);
     };
-}
-
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $bodyContent = $_POST;
-    
-    (new ProcessAction(combineReducers([
-        new \App\Reducers\ClearReducer(Store::INITIAL_STATE),
-        new \App\Reducers\AppReducer(),
-        new \App\Reducers\HistoryReducer()
-    ])))($store, $bodyContent);
 }
 
 function render($element = "span", $props = [])
@@ -53,7 +46,8 @@ function render($element = "span", $props = [])
     return "<{$element} {$attributes}>{$children}</{$element}>";
 }
 
-function renderComponent($componentName, $props) {
+function renderComponent($componentName, $props)
+{
     return (new $componentName())($props);
 }
 
@@ -61,4 +55,31 @@ $app = renderComponent(App::class, [
     'store' => $store
 ]);
 
-require './layout.html.php';
+function getTemplate($file)
+{
+    global $app;
+    ob_start();
+    include $file;
+    return ob_get_clean();
+}
+
+$slimApp = AppFactory::create();
+
+$slimApp->get('/', function (Request $request, Response $response, $args) use ($app) {
+    $template = getTemplate('./layout.html.php');
+
+    $response->getBody()->write($template);
+    return $response;
+});
+
+$slimApp->post('/', function (Request $request, Response $response, $args) use ($store) {
+    (new ProcessAction(combineReducers([
+        new \App\Reducers\ClearReducer(Store::INITIAL_STATE),
+        new \App\Reducers\AppReducer(),
+        new \App\Reducers\HistoryReducer()
+    ])))($store, $request->getParsedBody());
+
+    return true;
+});
+
+$slimApp->run();

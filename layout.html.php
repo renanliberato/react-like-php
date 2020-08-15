@@ -47,6 +47,11 @@
             $('body').bootstrapMaterialDesign();
             $('form.react-like-action').on('submit', function(e) {
                 const form = $(e.target);
+                if (form.submitted) {
+                    return;
+                }
+                
+                form.submitted = true;
                 e.preventDefault();
 
                 fetch(form.attr('action'), {

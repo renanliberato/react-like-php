@@ -17,7 +17,10 @@ class ActionsHistory
                 'children' => array_map(function ($action) use ($props) {
                     return render('li', [
                         'class' => 'list-group-item',
-                        'style' => 'align-items: center; justify-content: space-between;',
+                        'style' => [
+                            'align-items' => 'center',
+                            'justify-content' => 'space-between'
+                        ],
                         'children' => [
                             render('details', [
                                 'children' => [

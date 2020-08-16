@@ -41,12 +41,24 @@ function render($element = "span", $props = [])
         unset($props['children']);
     }
 
+    $style = '';
+    if (isset($props['style'])) {
+        if (is_array($props['style'])) {
+            foreach ($props['style'] as $key => $value) {
+                $style .= "{$key}:{$value};";
+            }
+        } else {
+            $style = $props['style'];
+        }
+        unset($props['style']);
+    }
+
     $attributes = '';
     foreach ($props as $key => $value) {
         $attributes .= " {$key}=\"{$value}\"";
     }
 
-    return "<{$element} {$attributes}>{$children}</{$element}>";
+    return "<{$element} style=\"$style\" {$attributes}>{$children}</{$element}>";
 }
 
 function renderComponent($componentName, $props)

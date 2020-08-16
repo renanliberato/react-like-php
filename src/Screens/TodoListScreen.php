@@ -13,49 +13,35 @@ class TodoListScreen
         $storeLimitReached = strlen(urlencode(json_encode($props['store']))) > 4000 ? 'true' : 'false';
 
         return render('div', [
-            'attributes' => [
-                'style' => 'align-self: center; width: 45%;'
-            ],
+            'style' => 'align-self: center; width: 45%;',
             'children' => [
                 $storeLimitReached != 'true' ? '' : render('div', [
-                    'attributes' => [
-                        'class' => 'alert alert-warning'
-                    ],
+                    'class' => 'alert alert-warning',
                     'children' => "Cookie limit is (maybe almost) reached, some actions might not work. Press 'Clear State' button to keep using the app."
                 ]),
                 render('div', [
-                    'attributes' => [
-                        'style' => 'flex-direction: row; justifty-content: space-between; margin-bottom: 10px'
-                    ],
+                    'style' => 'flex-direction: row; justifty-content: space-between; margin-bottom: 10px',
                     'children' => [
                         render('a', [
-                            'attributes' => [
-                                'class' => 'btn btn-outline-primary',
-                                'href' => ROUTE_PREFIX.'/history'
-                            ],
+                            'class' => 'btn btn-outline-primary',
+                            'href' => ROUTE_PREFIX.'/history',
                             'children' => "See history"
                         ]),
                         render('div', [
-                            'attributes' => [
-                                'style' => 'flex: 1'
-                            ]
+                            'style' => 'flex: 1',
                         ]),
                         renderComponent(ActionComponent::class, [
                             'type' => 'CLEAR_STATE',
                             'children' => render('button', [
-                                'attributes' => [
-                                    'class' => 'btn btn-primary active',
-                                ],
+                                'class' => 'btn btn-primary active',
                                 'children' => "Clear state"
                             ])
                         ]),
                     ]
                 ]),
                 render('div', [
-                    'attributes' => [
-                        'class' => 'card',
-                        'style' => 'padding: 20px;'
-                    ],
+                    'class' => 'card',
+                    'style' => 'padding: 20px;',
                     'children' => [
                         render('h1', ['children' => 'Todo List']),
                         render('p', [

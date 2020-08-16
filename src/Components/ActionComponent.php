@@ -23,34 +23,30 @@ class ActionComponent
             unset($formAttributes['class']);
         }
 
-        return render('form', [
-            'attributes' => array_merge(
-                [
-                    'method' => 'post',
-                    'action' => '',
-                    'class' => $classes
-                ],
-                $formAttributes
-            ),
-            'children' => array_merge(
-                [render('input', [
-                    'attributes' => [
+        return render('form', array_merge(
+            [
+                'method' => 'post',
+                'action' => '',
+                'class' => $classes
+            ],
+            $formAttributes,
+            [
+                'children' => array_merge(
+                    [render('input', [
                         'type' => 'hidden',
                         'name' => 'type',
-                        'value' => $type
-                    ]
-                ])],
-                array_map(function ($key) use ($params) {
-                    return render('input', [
-                        'attributes' => [
+                        'value' => $type,
+                    ])],
+                    array_map(function ($key) use ($params) {
+                        return render('input', [
                             'type' => 'hidden',
                             'name' => $key,
-                            'value' => $params[$key]
-                        ]
-                    ]);
-                }, array_keys($params)),
-                is_array($children) ? $children : [$children]
-            )
-        ]);
+                            'value' => $params[$key],
+                        ]);
+                    }, array_keys($params)),
+                    is_array($children) ? $children : [$children]
+                )
+            ]
+        ));
     }
 }

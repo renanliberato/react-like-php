@@ -38,13 +38,12 @@ function render($element = "span", $props = [])
         } else {
             $children = $props['children'];
         }
+        unset($props['children']);
     }
 
     $attributes = '';
-    if (isset($props['attributes'])) {
-        foreach ($props['attributes'] as $key => $value) {
-            $attributes .= " {$key}=\"{$value}\"";
-        }
+    foreach ($props as $key => $value) {
+        $attributes .= " {$key}=\"{$value}\"";
     }
 
     return "<{$element} {$attributes}>{$children}</{$element}>";

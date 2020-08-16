@@ -9,24 +9,18 @@ class NewTodo
         return renderComponent(ActionComponent::class, [
             'type' => 'ADD_TODO',
             'children' => render('div', [
-                'attributes' => [
-                    'class' => 'form-group'
-                ],
+                'class' => 'form-group',
                 'children' => [
                     render('label', [
                         'children' => 'Title'
                     ]),
                     render('input', [
-                        'attributes' => [
-                            'type' => 'text',
-                            'name' => 'name',
-                            'class' => 'form-control'
-                        ],
+                        'type' => 'text',
+                        'name' => 'name',
+                        'class' => 'form-control',
                         'children' => render('button', [
-                            'attributes' => [
-                                'style' => 'margin-top: 10px !important;',
-                                'class' => 'btn btn-primary active'
-                            ],
+                            'style' => 'margin-top: 10px !important;',
+                            'class' => 'btn btn-primary active',
                             'children' => 'Add'
                         ])
                     ])

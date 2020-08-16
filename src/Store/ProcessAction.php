@@ -4,20 +4,18 @@ namespace App\Store;
 
 class ProcessAction
 {
-    private $mainReducer;
+    private $store;
 
-    public function __construct($mainReducer)
+    public function __construct(Store $store)
     {
-        $this->mainReducer = $mainReducer;
+        $this->store = $store;
     }
 
-    public function __invoke($store, $action)
+    public function __invoke($action)
     {
-        $store = ($this->mainReducer)($store, $action);
+        $this->store->action($action);
     
-        $jwt = \Firebase\JWT\JWT::encode($store, Store::JWT_KEY);
-    
-        setcookie(TOKEN_COOKIE_NAME, $jwt);
+        $this->store->persistState();
     
         $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
         header("Location: " . $actual_link);

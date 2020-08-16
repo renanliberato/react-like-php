@@ -13,7 +13,10 @@ class TodoListScreen
         $storeLimitReached = strlen(urlencode(json_encode($props['store']))) > 4000 ? 'true' : 'false';
 
         return render('div', [
-            'style' => 'align-self: center; width: 45%;',
+            'style' => [
+                'align-self' => 'center',
+                'width' => '45%'
+            ],
             'children' => [
                 $storeLimitReached != 'true' ? '' : render('div', [
                     'class' => 'alert alert-warning',
@@ -28,7 +31,9 @@ class TodoListScreen
                             'children' => "See history"
                         ]),
                         render('div', [
-                            'style' => 'flex: 1',
+                            'style' => [
+                                'flex' => 1
+                            ],
                         ]),
                         renderComponent(ActionComponent::class, [
                             'type' => 'CLEAR_STATE',

@@ -31,7 +31,7 @@ class TodoListScreen
                         render('a', [
                             'attributes' => [
                                 'class' => 'btn btn-outline-primary',
-                                'href' => '/history'
+                                'href' => ROUTE_PREFIX.'/history'
                             ],
                             'children' => "See history"
                         ]),

@@ -24,7 +24,7 @@ class ActionHistoryScreen
                         render('a', [
                             'attributes' => [
                                 'class' => 'btn btn-outline-primary',
-                                'href' => '/',
+                                'href' => ROUTE_PREFIX.'/',
                                 'style' => 'align-self: flex-start;'
                             ],
                             'children' => "Back"

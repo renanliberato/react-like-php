@@ -11,10 +11,12 @@ use Slim\Factory\AppFactory;
 
 require './vendor/autoload.php';
 
-// error_reporting(E_ALL);
-// ini_set('display_errors', 1);
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 define('TOKEN_COOKIE_NAME', 'APP_STATE_TOKEN');
+// define('ROUTE_PREFIX', '/react-like-php'); // used on the website
+define('ROUTE_PREFIX', '');
 
 $store = Store::create();
 
@@ -63,7 +65,7 @@ function getTemplate($file, $params)
 
 $slimApp = AppFactory::create();
 
-$slimApp->get('/', function (Request $request, Response $response, $args) use ($store) {
+$slimApp->get(ROUTE_PREFIX.'/', function (Request $request, Response $response, $args) use ($store) {
     $app = renderComponent(TodoListScreen::class, [
         'store' => $store
     ]);
@@ -76,7 +78,7 @@ $slimApp->get('/', function (Request $request, Response $response, $args) use ($
     return $response;
 });
 
-$slimApp->get('/history', function (Request $request, Response $response, $args) use ($store) {
+$slimApp->get(ROUTE_PREFIX.'/history', function (Request $request, Response $response, $args) use ($store) {
     $app = renderComponent(ActionHistoryScreen::class, [
         'store' => $store
     ]);
@@ -88,7 +90,7 @@ $slimApp->get('/history', function (Request $request, Response $response, $args)
     return $response;
 });
 
-$slimApp->post('/[{path:.*}]', function (Request $request, Response $response, $args) use ($store) {
+$slimApp->post(ROUTE_PREFIX.'/[{path:.*}]', function (Request $request, Response $response, $args) use ($store) {
     (new ProcessAction(combineReducers([
         new \App\Reducers\ClearReducer(Store::INITIAL_STATE),
         new \App\Reducers\AppReducer(),

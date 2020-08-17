@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "14400e033c5164080792a2062f4aa169",
+    "content-hash": "ca1bd8de3d3efa26a7975be94a5b40a9",
     "packages": [
         {
             "name": "brick/math",
@@ -689,6 +689,42 @@
             "time": "2020-07-28T16:51:01+00:00"
         },
         {
+            "name": "renanliberato/exposer",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/renanliberato/exposer.git",
+                "reference": "f1b3705e84d1258f21813cbbc51a6ba55c574695"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/renanliberato/exposer/zipball/f1b3705e84d1258f21813cbbc51a6ba55c574695",
+                "reference": "f1b3705e84d1258f21813cbbc51a6ba55c574695",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "RenanLiberato\\Exposer\\": "src/"
+                },
+                "files": [
+                    "src/functions.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Renan Liberato",
+                    "email": "renan.libsantana@gmail.com"
+                }
+            ],
+            "description": "PHP package to render UI elements as functional components",
+            "time": "2020-08-17T15:53:13+00:00"
+        },
+        {
             "name": "slim/psr7",
             "version": "1.1.0",
             "source": {
@@ -920,8 +956,10 @@
     ],
     "packages-dev": [],
     "aliases": [],
-    "minimum-stability": "stable",
-    "stability-flags": [],
+    "minimum-stability": "dev",
+    "stability-flags": {
+        "renanliberato/exposer": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],

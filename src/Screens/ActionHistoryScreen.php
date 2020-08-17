@@ -2,8 +2,10 @@
 
 namespace App\Screens;
 
-use App\Components\ActionComponent;
 use App\Components\ActionsHistory;
+use RenanLiberato\Exposer\Components\ActionComponent;
+use function RenanLiberato\Exposer\render;
+use function RenanLiberato\Exposer\renderComponent;
 
 class ActionHistoryScreen
 {

@@ -2,6 +2,9 @@
 
 namespace App\Components;
 
+use function RenanLiberato\Exposer\render;
+use function RenanLiberato\Exposer\renderComponent;
+
 class ActionsHistory
 {
     public function __invoke($props)

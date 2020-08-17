@@ -2,9 +2,11 @@
 
 namespace App\Screens;
 
-use App\Components\ActionComponent;
 use App\Components\NewTodo;
 use App\Components\TodoList;
+use RenanLiberato\Exposer\Components\ActionComponent;
+use function RenanLiberato\Exposer\render;
+use function RenanLiberato\Exposer\renderComponent;
 
 class TodoListScreen
 {

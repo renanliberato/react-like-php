@@ -2,6 +2,10 @@
 
 namespace App\Components;
 
+use RenanLiberato\Exposer\Components\ActionComponent;
+use function RenanLiberato\Exposer\render;
+use function RenanLiberato\Exposer\renderComponent;
+
 class EditTodo
 {
     public function __invoke($props)

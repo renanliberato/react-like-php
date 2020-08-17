@@ -7,6 +7,12 @@ class AppReducer
     public function __invoke($state, $action)
     {
         switch ($action['type']) {
+            case 'GET_HISTORY':
+                $state['actions_history'] = $action['actions_history'];
+                return $state;
+            case 'GET_TODOS':
+                $state['todos'] = $action['todos'];
+                return $state;
             case 'ADD_TODO':
                 $state['todos'][] = ['id' => count($state['todos']) + 1, 'name' => $action['name'], 'completed' => false];
                 return $state;

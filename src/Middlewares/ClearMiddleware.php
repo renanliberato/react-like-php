@@ -2,13 +2,13 @@
 
 namespace App\Middlewares;
 
-use App\Store\Store;
+use App\Store\AppStore;
 
 class ClearMiddleware
 {
     private $store;
 
-    public function __construct(Store $store)
+    public function __construct(AppStore $store)
     {
         $this->store = $store;
     }

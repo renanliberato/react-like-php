@@ -1,12 +1,14 @@
 <?php
 
+use App\Store\AppStore;
 use App\Screens\ActionHistoryScreen;
 use App\Screens\TodoListScreen;
-use App\Store\ProcessAction;
-use App\Store\Store;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use RenanLiberato\ExposerStore\Persistors\CookiePersistor;
 use Slim\Factory\AppFactory;
+
+use RenanLiberato\ExposerStore\Store\ProcessAction;
 use function RenanLiberato\Exposer\renderComponent;
 
 require './vendor/autoload.php';
@@ -18,14 +20,6 @@ define('TOKEN_COOKIE_NAME', 'APP_STATE_TOKEN');
 // define('ROUTE_PREFIX', '/react-like-php'); // used on the website
 define('ROUTE_PREFIX', '');
 
-if (!file_exists('./data/todos.json')) {
-    file_put_contents('./data/todos.json', "[]");
-}
-
-if (!file_exists('./data/actions_history.json')) {
-    file_put_contents('./data/actions_history.json', "[]");
-}
-
 $initialState = [
     'todos' => [],
     'ui' => [
@@ -35,7 +29,7 @@ $initialState = [
     'user_id' => null
 ];
 
-$store = new Store(
+$store = new AppStore(
     $initialState,
     [
         new \App\Reducers\AppReducer(),
@@ -47,25 +41,9 @@ $store = new Store(
     ]
 );
 
-$store->setPersistFunction(function ($state) {
-    file_put_contents('./data/todos.json', json_encode($state['todos'], JSON_PRETTY_PRINT));
-    file_put_contents('./data/actions_history.json', json_encode($state['actions_history'], JSON_PRETTY_PRINT));
-
-    return [
-        'ui' => $state['ui'],
-        'user_id' => $state['user_id']
-    ];
-});
+$store->setPersistor(new CookiePersistor(TOKEN_COOKIE_NAME, '!#OIGJ!#$F12ofij123fo123FJ!@3'));
 
 $store->getPersistedState();
-$store->action([
-    'type' => 'GET_TODOS',
-    'todos' => json_decode(file_get_contents('./data/todos.json'), true),
-]);
-$store->action([
-    'type' => 'GET_HISTORY',
-    'actions_history' => json_decode(file_get_contents('./data/actions_history.json'), true),
-]);
 
 function getTemplate($file, $params)
 {
@@ -79,7 +57,7 @@ $slimApp = AppFactory::create();
 
 $slimApp->add(function ($request, $handler) use ($store) {
     $response = $handler->handle($request);
-    
+
     if ($request->getMethod() != 'POST') {
         $store->persistState();
     }
@@ -113,7 +91,12 @@ $slimApp->get(ROUTE_PREFIX . '/history', function (Request $request, Response $r
 });
 
 $slimApp->post(ROUTE_PREFIX . '/[{path:.*}]', function (Request $request, Response $response, $args) use ($store) {
-    (new ProcessAction($store))($request->getParsedBody());
+    (new ProcessAction($store, function () {
+        $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+        header("Location: " . $actual_link);
+
+        exit();
+    }))($request->getParsedBody());
 
     return true;
 });

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "ca1bd8de3d3efa26a7975be94a5b40a9",
+    "content-hash": "89ad738edfb4bcf299442a2c855af258",
     "packages": [
         {
             "name": "brick/math",
@@ -54,7 +54,7 @@
         },
         {
             "name": "fig/http-message-util",
-            "version": "1.1.4",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/http-message-util.git",
@@ -156,16 +156,16 @@
         },
         {
             "name": "nikic/fast-route",
-            "version": "v1.3.0",
+            "version": "v1.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/FastRoute.git",
-                "reference": "181d480e08d9476e61381e04a71b34dc0432e812"
+                "reference": "4012884e0b916e1bd895a5061d4abc3c99e283a4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/FastRoute/zipball/181d480e08d9476e61381e04a71b34dc0432e812",
-                "reference": "181d480e08d9476e61381e04a71b34dc0432e812",
+                "url": "https://api.github.com/repos/nikic/FastRoute/zipball/4012884e0b916e1bd895a5061d4abc3c99e283a4",
+                "reference": "4012884e0b916e1bd895a5061d4abc3c99e283a4",
                 "shasum": ""
             },
             "require": {
@@ -198,20 +198,20 @@
                 "router",
                 "routing"
             ],
-            "time": "2018-02-13T20:26:39+00:00"
+            "time": "2019-12-20T12:15:33+00:00"
         },
         {
             "name": "psr/container",
-            "version": "1.0.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/container.git",
-                "reference": "b7ce3b176482dbbc1245ebf52b181af44c2cf55f"
+                "reference": "fc1bc363ecf887921e3897c7b1dad3587ae154eb"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/container/zipball/b7ce3b176482dbbc1245ebf52b181af44c2cf55f",
-                "reference": "b7ce3b176482dbbc1245ebf52b181af44c2cf55f",
+                "url": "https://api.github.com/repos/php-fig/container/zipball/fc1bc363ecf887921e3897c7b1dad3587ae154eb",
+                "reference": "fc1bc363ecf887921e3897c7b1dad3587ae154eb",
                 "shasum": ""
             },
             "require": {
@@ -247,20 +247,20 @@
                 "container-interop",
                 "psr"
             ],
-            "time": "2017-02-14T16:28:37+00:00"
+            "time": "2019-10-04T14:07:35+00:00"
         },
         {
             "name": "psr/http-factory",
-            "version": "1.0.1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/http-factory.git",
-                "reference": "12ac7fcd07e5b077433f5f2bee95b3a771bf61be"
+                "reference": "1a2099a23a7bca67f13c0634723137a364a3ebf8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/http-factory/zipball/12ac7fcd07e5b077433f5f2bee95b3a771bf61be",
-                "reference": "12ac7fcd07e5b077433f5f2bee95b3a771bf61be",
+                "url": "https://api.github.com/repos/php-fig/http-factory/zipball/1a2099a23a7bca67f13c0634723137a364a3ebf8",
+                "reference": "1a2099a23a7bca67f13c0634723137a364a3ebf8",
                 "shasum": ""
             },
             "require": {
@@ -299,20 +299,20 @@
                 "request",
                 "response"
             ],
-            "time": "2019-04-30T12:38:16+00:00"
+            "time": "2019-12-29T01:52:41+00:00"
         },
         {
             "name": "psr/http-message",
-            "version": "1.0.1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/http-message.git",
-                "reference": "f6561bf28d520154e4b0ec72be95418abe6d9363"
+                "reference": "efd67d1dc14a7ef4fc4e518e7dee91c271d524e4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/http-message/zipball/f6561bf28d520154e4b0ec72be95418abe6d9363",
-                "reference": "f6561bf28d520154e4b0ec72be95418abe6d9363",
+                "url": "https://api.github.com/repos/php-fig/http-message/zipball/efd67d1dc14a7ef4fc4e518e7dee91c271d524e4",
+                "reference": "efd67d1dc14a7ef4fc4e518e7dee91c271d524e4",
                 "shasum": ""
             },
             "require": {
@@ -349,20 +349,20 @@
                 "request",
                 "response"
             ],
-            "time": "2016-08-06T14:39:51+00:00"
+            "time": "2019-08-29T13:16:46+00:00"
         },
         {
             "name": "psr/http-server-handler",
-            "version": "1.0.1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/php-fig/http-server-handler.git",
-                "reference": "aff2f80e33b7f026ec96bb42f63242dc50ffcae7"
+                "url": "git@github.com:php-fig/http-server-handler.git",
+                "reference": "f981eec4f9870ace3ee8ada18c88a59461080cba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/http-server-handler/zipball/aff2f80e33b7f026ec96bb42f63242dc50ffcae7",
-                "reference": "aff2f80e33b7f026ec96bb42f63242dc50ffcae7",
+                "url": "https://api.github.com/repos/php-fig/http-server-handler/zipball/f981eec4f9870ace3ee8ada18c88a59461080cba",
+                "reference": "f981eec4f9870ace3ee8ada18c88a59461080cba",
                 "shasum": ""
             },
             "require": {
@@ -402,20 +402,20 @@
                 "response",
                 "server"
             ],
-            "time": "2018-10-30T16:46:14+00:00"
+            "time": "2019-06-07T16:00:12+00:00"
         },
         {
             "name": "psr/http-server-middleware",
-            "version": "1.0.1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/http-server-middleware.git",
-                "reference": "2296f45510945530b9dceb8bcedb5cb84d40c5f5"
+                "reference": "780c6808074df604f30fc72bb6aaa889f1ff10e9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/http-server-middleware/zipball/2296f45510945530b9dceb8bcedb5cb84d40c5f5",
-                "reference": "2296f45510945530b9dceb8bcedb5cb84d40c5f5",
+                "url": "https://api.github.com/repos/php-fig/http-server-middleware/zipball/780c6808074df604f30fc72bb6aaa889f1ff10e9",
+                "reference": "780c6808074df604f30fc72bb6aaa889f1ff10e9",
                 "shasum": ""
             },
             "require": {
@@ -455,11 +455,11 @@
                 "request",
                 "response"
             ],
-            "time": "2018-10-30T17:12:04+00:00"
+            "time": "2019-05-23T18:10:42+00:00"
         },
         {
             "name": "psr/log",
-            "version": "1.1.3",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/log.git",
@@ -609,16 +609,16 @@
         },
         {
             "name": "ramsey/uuid",
-            "version": "4.1.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/ramsey/uuid.git",
-                "reference": "988dbefc7878d0a35f12afb4df1f7dd0bd153c43"
+                "reference": "69b3eb8824546bf2c06211fcf2ef630effa5ec49"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/ramsey/uuid/zipball/988dbefc7878d0a35f12afb4df1f7dd0bd153c43",
-                "reference": "988dbefc7878d0a35f12afb4df1f7dd0bd153c43",
+                "url": "https://api.github.com/repos/ramsey/uuid/zipball/69b3eb8824546bf2c06211fcf2ef630effa5ec49",
+                "reference": "69b3eb8824546bf2c06211fcf2ef630effa5ec49",
                 "shasum": ""
             },
             "require": {
@@ -686,7 +686,7 @@
                 "identifier",
                 "uuid"
             ],
-            "time": "2020-07-28T16:51:01+00:00"
+            "time": "2020-07-28T16:52:54+00:00"
         },
         {
             "name": "renanliberato/exposer",
@@ -723,6 +723,42 @@
             ],
             "description": "PHP package to render UI elements as functional components",
             "time": "2020-08-17T15:53:13+00:00"
+        },
+        {
+            "name": "renanliberato/exposer-store",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/renanliberato/exposer-store.git",
+                "reference": "36790d2a5050b9f7d5fa347f8b2618dc2a07a945"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/renanliberato/exposer-store/zipball/36790d2a5050b9f7d5fa347f8b2618dc2a07a945",
+                "reference": "36790d2a5050b9f7d5fa347f8b2618dc2a07a945",
+                "shasum": ""
+            },
+            "require": {
+                "firebase/php-jwt": "^5.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "RenanLiberato\\ExposerStore\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Renan Liberato",
+                    "email": "renan.libsantana@gmail.com"
+                }
+            ],
+            "description": "PHP package to manage app state through a redux-like API",
+            "time": "2020-08-17T22:07:04+00:00"
         },
         {
             "name": "slim/psr7",
@@ -800,16 +836,16 @@
         },
         {
             "name": "slim/slim",
-            "version": "4.5.0",
+            "version": "4.x-dev",
             "source": {
                 "type": "git",
                 "url": "https://github.com/slimphp/Slim.git",
-                "reference": "5613cbb521081ed676d5d7eb3e44f2b80a818c24"
+                "reference": "3027cbee85e00794414947e9ab17f6db0778fbe6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/slimphp/Slim/zipball/5613cbb521081ed676d5d7eb3e44f2b80a818c24",
-                "reference": "5613cbb521081ed676d5d7eb3e44f2b80a818c24",
+                "url": "https://api.github.com/repos/slimphp/Slim/zipball/3027cbee85e00794414947e9ab17f6db0778fbe6",
+                "reference": "3027cbee85e00794414947e9ab17f6db0778fbe6",
                 "shasum": ""
             },
             "require": {
@@ -824,18 +860,18 @@
                 "psr/log": "^1.1"
             },
             "require-dev": {
-                "adriansuter/php-autoload-override": "^1.0",
+                "adriansuter/php-autoload-override": "^1.2",
                 "ext-simplexml": "*",
-                "guzzlehttp/psr7": "^1.5",
+                "guzzlehttp/psr7": "^1.6",
                 "http-interop/http-factory-guzzle": "^1.0",
-                "laminas/laminas-diactoros": "^2.1",
-                "nyholm/psr7": "^1.1",
-                "nyholm/psr7-server": "^0.3.0",
-                "phpspec/prophecy": "^1.10",
-                "phpstan/phpstan": "^0.11.5",
+                "laminas/laminas-diactoros": "^2.3",
+                "nyholm/psr7": "^1.3",
+                "nyholm/psr7-server": "^1.0.0",
+                "phpspec/prophecy": "^1.11",
+                "phpstan/phpstan": "^0.12.37",
                 "phpunit/phpunit": "^8.5",
                 "slim/http": "^1.0",
-                "slim/psr7": "^1.0",
+                "slim/psr7": "^1.1",
                 "squizlabs/php_codesniffer": "^3.5"
             },
             "suggest": {
@@ -889,11 +925,11 @@
                 "micro",
                 "router"
             ],
-            "time": "2020-04-14T20:49:48+00:00"
+            "time": "2020-08-11T03:28:52+00:00"
         },
         {
             "name": "symfony/polyfill-ctype",
-            "version": "v1.18.1",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-ctype.git",
@@ -958,7 +994,8 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "renanliberato/exposer": 20
+        "renanliberato/exposer": 20,
+        "renanliberato/exposer-store": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

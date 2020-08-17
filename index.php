@@ -20,8 +20,12 @@ define('TOKEN_COOKIE_NAME', 'APP_STATE_TOKEN');
 // define('ROUTE_PREFIX', '/react-like-php'); // used on the website
 define('ROUTE_PREFIX', '');
 
+if (!file_exists('./data/todos.json')) {
+    file_put_contents('./data/todos.json', "[]");
+}
+
 $initialState = [
-    'todos' => [],
+    'todos' => json_decode(file_get_contents('./data/todos.json'), true),
     'ui' => [
         'editing_todo' => false
     ],
@@ -41,6 +45,15 @@ $store = new Store(
     ]
 );
 
+$store->setPersistFunction(function ($state) {
+    file_put_contents('./data/todos.json', json_encode($state['todos'], JSON_PRETTY_PRINT));
+    
+    return [
+        'ui' => $state['ui'],
+        'actions_history' => $state['actions_history'],
+        'user_id' => $state['user_id']
+    ];
+});
 $store->getPersistedState();
 
 function render($element = "span", $props = [])

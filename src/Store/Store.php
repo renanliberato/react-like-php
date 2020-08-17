@@ -17,6 +17,8 @@ class Store
 
     private $middlewares;
 
+    private $persistFunction;
+
     public function __construct($state, $reducers, $middlewares)
     {
         $this->initialState = $state;
@@ -24,6 +26,9 @@ class Store
         $this->mainReducer = $this->combineReducers($reducers);
         $this->middlewares = $middlewares;
         $this->middlewares = $this->applyMiddlewares();
+        $this->persistFunction = function ($state) {
+            return $state;
+        };
 
         $this->action(['type' => 'INITIALIZE']);
     }
@@ -60,13 +65,18 @@ class Store
     public function getPersistedState()
     {
         if (isset($_COOKIE[TOKEN_COOKIE_NAME])) {
-            $this->setState(json_decode(json_encode((array)\Firebase\JWT\JWT::decode($_COOKIE[TOKEN_COOKIE_NAME], self::$JWT_KEY, ['HS256'])), true));
+            $this->setState(array_merge($this->state, json_decode(json_encode((array)\Firebase\JWT\JWT::decode($_COOKIE[TOKEN_COOKIE_NAME], self::$JWT_KEY, ['HS256'])), true)));
         }
+    }
+
+    public function setPersistFunction($persistFunction)
+    {
+        $this->persistFunction = $persistFunction;
     }
 
     public function persistState()
     {
-        $jwt = \Firebase\JWT\JWT::encode($this->getState(), Store::$JWT_KEY);
+        $jwt = \Firebase\JWT\JWT::encode(($this->persistFunction)($this->getState()), Store::$JWT_KEY);
 
         setcookie(TOKEN_COOKIE_NAME, $jwt);
     }

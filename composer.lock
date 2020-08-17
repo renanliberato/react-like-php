@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "89ad738edfb4bcf299442a2c855af258",
+    "content-hash": "e58aad1d55cc36493264e2661bfe5dce",
     "packages": [
         {
             "name": "brick/math",
@@ -726,16 +726,16 @@
         },
         {
             "name": "renanliberato/exposer-store",
-            "version": "dev-master",
+            "version": "0.2.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/renanliberato/exposer-store.git",
-                "reference": "36790d2a5050b9f7d5fa347f8b2618dc2a07a945"
+                "reference": "89adf9e18881c8c67468860b5904a9ba9d00d78a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/renanliberato/exposer-store/zipball/36790d2a5050b9f7d5fa347f8b2618dc2a07a945",
-                "reference": "36790d2a5050b9f7d5fa347f8b2618dc2a07a945",
+                "url": "https://api.github.com/repos/renanliberato/exposer-store/zipball/89adf9e18881c8c67468860b5904a9ba9d00d78a",
+                "reference": "89adf9e18881c8c67468860b5904a9ba9d00d78a",
                 "shasum": ""
             },
             "require": {
@@ -758,7 +758,7 @@
                 }
             ],
             "description": "PHP package to manage app state through a redux-like API",
-            "time": "2020-08-17T22:07:04+00:00"
+            "time": "2020-08-17T22:13:49+00:00"
         },
         {
             "name": "slim/psr7",
@@ -994,8 +994,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "renanliberato/exposer": 20,
-        "renanliberato/exposer-store": 20
+        "renanliberato/exposer": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

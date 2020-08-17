@@ -3,6 +3,7 @@
 use App\Store\AppStore;
 use App\Screens\ActionHistoryScreen;
 use App\Screens\TodoListScreen;
+use App\Store\FileSystemPersistor;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use RenanLiberato\ExposerStore\Persistors\CookiePersistor;
@@ -41,7 +42,7 @@ $store = new AppStore(
     ]
 );
 
-$store->setPersistor(new CookiePersistor(TOKEN_COOKIE_NAME, '!#OIGJ!#$F12ofij123fo123FJ!@3'));
+$store->setPersistor(new FileSystemPersistor(new CookiePersistor(TOKEN_COOKIE_NAME, '!#OIGJ!#$F12ofij123fo123FJ!@3')));
 
 $store->getPersistedState();
 

@@ -12,7 +12,7 @@
         "slim/psr7": "^1.1",
         "ramsey/uuid": "^4.1",
         "renanliberato/exposer": "dev-master",
-        "renanliberato/exposer-store": "dev-master"
+        "renanliberato/exposer-store": "^0.2.0"
     },
     "minimum-stability": "dev",
     "autoload": {

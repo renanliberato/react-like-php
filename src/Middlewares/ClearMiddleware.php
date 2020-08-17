@@ -19,9 +19,8 @@ class ClearMiddleware
             switch ($action['type']) {
                 case 'CLEAR_STATE':
                     $state = $this->store->getState();
-                    foreach ($state as $key => $value) {
-                        $state[$key] = $this->store->initialState[$key];
-                    }
+                    $state['todos'] = [];
+                    $state['actions_history'] = [];
 
                     $this->store->setState($state);
             }

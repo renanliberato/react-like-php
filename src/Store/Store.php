@@ -4,15 +4,9 @@ namespace App\Store;
 
 class Store
 {
-    public const JWT_KEY = '!#OIGJ!#$F12ofij123fo123FJ!@3';
-    public const INITIAL_STATE = [
-        'todos' => [],
-        'ui' => [
-            'editing_todo' => false
-        ],
-        'actions_history' => [],
-        'user_id' => null
-    ];
+    public static $JWT_KEY = '!#OIGJ!#$F12ofij123fo123FJ!@3';
+
+    public $initialState;
 
     private $mainReducer;
 
@@ -25,6 +19,7 @@ class Store
 
     public function __construct($state, $reducers, $middlewares)
     {
+        $this->initialState = $state;
         $this->state = $state;
         $this->mainReducer = $this->combineReducers($reducers);
         $this->middlewares = $middlewares;
@@ -62,9 +57,16 @@ class Store
         $this->state = ($this->mainReducer)($action);
     }
 
+    public function getPersistedState()
+    {
+        if (isset($_COOKIE[TOKEN_COOKIE_NAME])) {
+            $this->setState(json_decode(json_encode((array)\Firebase\JWT\JWT::decode($_COOKIE[TOKEN_COOKIE_NAME], self::$JWT_KEY, ['HS256'])), true));
+        }
+    }
+
     public function persistState()
     {
-        $jwt = \Firebase\JWT\JWT::encode($this->getState(), Store::JWT_KEY);
+        $jwt = \Firebase\JWT\JWT::encode($this->getState(), Store::$JWT_KEY);
 
         setcookie(TOKEN_COOKIE_NAME, $jwt);
     }
@@ -106,20 +108,5 @@ class Store
         }
 
         return $middlewaresWithNext;
-    }
-
-    public static function create($reducers, $middlewares)
-    {
-        $store = self::INITIAL_STATE;
-
-        if (!isset($_COOKIE[TOKEN_COOKIE_NAME])) {
-            $jwt = \Firebase\JWT\JWT::encode($store, self::JWT_KEY);
-
-            setcookie(TOKEN_COOKIE_NAME, $jwt);
-        } else {
-            $store = json_decode(json_encode((array)\Firebase\JWT\JWT::decode($_COOKIE[TOKEN_COOKIE_NAME], self::JWT_KEY, ['HS256'])), true);
-        }
-
-        return new self($store, $reducers, $middlewares);
     }
 }

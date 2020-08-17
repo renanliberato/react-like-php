@@ -20,7 +20,17 @@ define('TOKEN_COOKIE_NAME', 'APP_STATE_TOKEN');
 // define('ROUTE_PREFIX', '/react-like-php'); // used on the website
 define('ROUTE_PREFIX', '');
 
-$store = Store::create(
+$initialState = [
+    'todos' => [],
+    'ui' => [
+        'editing_todo' => false
+    ],
+    'actions_history' => [],
+    'user_id' => null
+];
+
+$store = new Store(
+    $initialState,
     [
         new \App\Reducers\AppReducer(),
     ],
@@ -30,6 +40,8 @@ $store = Store::create(
         \App\Middlewares\HistoryMiddleware::class,
     ]
 );
+
+$store->getPersistedState();
 
 function render($element = "span", $props = [])
 {

@@ -6,7 +6,6 @@ use App\Store\Store;
 
 class ClearMiddleware
 {
-    private $initialState = Store::INITIAL_STATE;
     private $store;
 
     public function __construct(Store $store)
@@ -21,7 +20,7 @@ class ClearMiddleware
                 case 'CLEAR_STATE':
                     $state = $this->store->getState();
                     foreach ($state as $key => $value) {
-                        $state[$key] = $this->initialState[$key];
+                        $state[$key] = $this->store->initialState[$key];
                     }
 
                     $this->store->setState($state);

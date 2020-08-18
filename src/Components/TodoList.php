@@ -89,12 +89,12 @@ class TodoList
                                                             'style' => 'margin-right: 10px;'
                                                         ]
                                                     ],
-                                                    'children' => render('button', ['class' => 'btn dropdown-item', 'type' => 'button', 'children' => 'Edit'])
+                                                    'children' => render('button', ['class' => 'btn dropdown-item', 'children' => 'Edit'])
                                                 ]),
                                                 renderComponent(ActionComponent::class, [
                                                     'type' => 'REMOVE_TODO',
                                                     'params' => ['id' => $todo['id']],
-                                                    'children' => render('button', ['class' => 'btn dropdown-item', 'type' => 'button', 'children' => 'Remove'])
+                                                    'children' => render('button', ['class' => 'btn dropdown-item', 'children' => 'Remove'])
                                                 ]),
                                             ]
                                         ])

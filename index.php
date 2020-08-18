@@ -1,5 +1,10 @@
 <?php
 
+use App\Middlewares\LogMiddleware;
+use App\Reducers\HistoryReducer;
+use App\Reducers\TodosReducer;
+use App\Reducers\UIReducer;
+use App\Reducers\UserReducer;
 use App\Store\AppStore;
 use App\Screens\ActionHistoryScreen;
 use App\Screens\TodoListScreen;
@@ -33,18 +38,25 @@ $initialState = [
 $store = new AppStore(
     $initialState,
     [
-        new \App\Reducers\AppReducer(),
-    ],
-    [
-        \App\Middlewares\LoginMiddleware::class,
-        \App\Middlewares\ClearMiddleware::class,
-        \App\Middlewares\HistoryMiddleware::class,
+        'ui' => new UIReducer(),
+        'todos' => new TodosReducer(),
+        'actions_history' => new HistoryReducer(),
+        'user_id' => new UserReducer()
     ]
 );
 
 $store->setPersistor(new FileSystemPersistor(new CookiePersistor(TOKEN_COOKIE_NAME, '!#OIGJ!#$F12ofij123fo123FJ!@3')));
 
 $store->getPersistedState();
+
+$state = $store->getState();
+
+if (!$state['user_id']) {
+    $store->action([
+        'type' => 'LOGIN',
+        'user_id' => \Ramsey\Uuid\Uuid::uuid4()->toString()
+    ]);
+}
 
 function getTemplate($file, $params)
 {

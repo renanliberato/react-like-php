@@ -39,7 +39,7 @@ class FileSystemPersistor implements PersistorInterface
         $stateFromFile = [];
         $stateFromCookie = $this->cookiePersistor->getPersistedState();
 
-        if ($stateFromCookie['user_id'] != null) {
+        if (isset($stateFromCookie['user_id']) && $stateFromCookie['user_id'] != null) {
             $stateFile = "./data/state_{$stateFromCookie['user_id']}.json";
 
             if (file_exists($stateFile)) {

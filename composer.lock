@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "e58aad1d55cc36493264e2661bfe5dce",
+    "content-hash": "997b6808b143b7314642946fc7aafa50",
     "packages": [
         {
             "name": "brick/math",
@@ -726,16 +726,16 @@
         },
         {
             "name": "renanliberato/exposer-store",
-            "version": "0.2.1",
+            "version": "0.3.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/renanliberato/exposer-store.git",
-                "reference": "89adf9e18881c8c67468860b5904a9ba9d00d78a"
+                "reference": "9e0ec3bbcb42370a451590f068611ace64f9ded3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/renanliberato/exposer-store/zipball/89adf9e18881c8c67468860b5904a9ba9d00d78a",
-                "reference": "89adf9e18881c8c67468860b5904a9ba9d00d78a",
+                "url": "https://api.github.com/repos/renanliberato/exposer-store/zipball/9e0ec3bbcb42370a451590f068611ace64f9ded3",
+                "reference": "9e0ec3bbcb42370a451590f068611ace64f9ded3",
                 "shasum": ""
             },
             "require": {
@@ -758,7 +758,7 @@
                 }
             ],
             "description": "PHP package to manage app state through a redux-like API",
-            "time": "2020-08-17T22:13:49+00:00"
+            "time": "2020-08-17T23:53:46+00:00"
         },
         {
             "name": "slim/psr7",

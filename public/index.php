@@ -16,6 +16,8 @@ use Slim\Factory\AppFactory;
 use RenanLiberato\ExposerStore\Store\ProcessAction;
 use function RenanLiberato\Exposer\renderComponent;
 
+chdir(dirname(__DIR__));
+
 require './vendor/autoload.php';
 
 // error_reporting(E_ALL);
@@ -87,7 +89,7 @@ $slimApp->get(ROUTE_PREFIX . '/', function (Request $request, Response $response
         'store' => $store->getState()
     ]);
 
-    $template = getTemplate('./layout.html.php', [
+    $template = getTemplate('./src/Layouts/layout.html.php', [
         'app' => $app
     ]);
 
@@ -99,7 +101,7 @@ $slimApp->get(ROUTE_PREFIX . '/history', function (Request $request, Response $r
     $app = renderComponent(ActionHistoryScreen::class, [
         'store' => $store->getState()
     ]);
-    $template = getTemplate('./layout.html.php', [
+    $template = getTemplate('./src/Layouts/layout.html.php', [
         'app' => $app
     ]);
 

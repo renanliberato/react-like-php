@@ -6,6 +6,8 @@ class TodosReducer
 {
     public function __invoke($state, $action)
     {
+        global $store;
+
         switch ($action['type']) {
             case 'GET_TODOS':
                 return $action['todos'];
@@ -34,7 +36,7 @@ class TodosReducer
 
                 return $state;
             case 'CLEAR_STATE':
-                return [];
+                return $store->initialState['todos'];
             default:
                 return $state;
         }

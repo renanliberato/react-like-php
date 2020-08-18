@@ -1,0 +1,5 @@
+RewriteEngine on
+RewriteCond %{REQUEST_URI} !^/react-like-php/public/
+RewriteRule (.*) /react-like-php/public/$1
+
+Setenvif authorization ^(.+)$ auth_head=$1 

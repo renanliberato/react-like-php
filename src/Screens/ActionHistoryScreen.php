@@ -14,7 +14,7 @@ class ActionHistoryScreen
         $history = $props['store']['actions_history'];
 
         return render('div', [
-            'style' => 'align-self: center; width: 45%;',
+            'style' => 'margin: 10px;',
             'children' => [
                 render('div', [
                     'style' => 'flex-direction: row; justifty-content: space-between; margin-bottom: 10px',

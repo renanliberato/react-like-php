@@ -1,6 +1,5 @@
 <?php
 
-use App\Middlewares\LogMiddleware;
 use App\Reducers\HistoryReducer;
 use App\Reducers\TodosReducer;
 use App\Reducers\UIReducer;
@@ -19,15 +18,20 @@ use function RenanLiberato\Exposer\renderComponent;
 
 require './vendor/autoload.php';
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+// error_reporting(E_ALL);
+// ini_set('display_errors', 1);
 
 define('TOKEN_COOKIE_NAME', 'APP_STATE_TOKEN');
 // define('ROUTE_PREFIX', '/react-like-php'); // used on the website
 define('ROUTE_PREFIX', '');
 
 $initialState = [
-    'todos' => [],
+    'todos' => [
+        ['id' => 4, 'name' => "Give a star to <a target=_blank href=https://github.com/renanliberato/exposer>renanliberato/exposer</a>", 'completed' => false],
+        ['id' => 3, 'name' => "Give a star to <a target=_blank href=https://github.com/renanliberato/exposer-store>renanliberato/exposer-store</a>", 'completed' => false],
+        ['id' => 2, 'name' => "<a target=_blank href=https://twitter.com/renanlibegato>Follow me on twitter</a>", 'completed' => false],
+        ['id' => 1, 'name' => "Enjoy the day!", 'completed' => false],
+    ],
     'ui' => [
         'editing_todo' => false
     ],
@@ -105,6 +109,7 @@ $slimApp->get(ROUTE_PREFIX . '/history', function (Request $request, Response $r
 
 $slimApp->post(ROUTE_PREFIX . '/[{path:.*}]', function (Request $request, Response $response, $args) use ($store) {
     (new ProcessAction($store, function () {
+        // return true;
         $actual_link = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http") . "://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
         header("Location: " . $actual_link);
 

@@ -10,6 +10,12 @@ class TodoList
 {
     public function __invoke($props)
     {
+        $todos = $props['todos'];
+
+        usort($todos, function($a, $b) {
+            return $b['id'] - $a['id'];
+        });
+
         return render('div', [
             'children' => render('ul', [
                 'class' => 'list-group',
@@ -51,28 +57,52 @@ class TodoList
                                 ]),
                                 render('span', ['style' => 'flex: 1;', 'children' => $todo['name']]),
                                 render('div', [
-                                    'style' => 'flex-direction: row;',
+                                    'class' => 'btn-group',
                                     'children' => [
-                                        renderComponent(ActionComponent::class, [
-                                            'type' => 'EDIT_TODO_SHOW',
-                                            'params' => [
-                                                'id' => $todo['id'],
-                                                'formAttributes' => [
-                                                    'style' => 'margin-right: 10px;'
-                                                ]
+                                        render('button', [
+                                            'class' => 'btn bmd-btn-icon dropdown-toggle',
+                                            'style' => [
+                                                'margin-right' => '0!important'
                                             ],
-                                            'children' => render('button', ['class' => 'btn btn-outline-primary', 'style' => 'margin-right: 10px;', 'children' => 'Edit'])
+                                            'type' => 'button',
+                                            'id' => "btn-options-{$todo['id']}",
+                                            'data-toggle' => 'dropdown',
+                                            'aria-haspopup' => 'true',
+                                            'aria-expanded' => 'false',
+                                            'children' => render('i', [
+                                                'class' => 'material-icons',
+                                                'children' => 'more_vert',
+                                                'style' => [
+                                                    'margin-right' => '0!important'
+                                                ],
+                                            ]),
                                         ]),
-                                        renderComponent(ActionComponent::class, [
-                                            'type' => 'REMOVE_TODO',
-                                            'params' => ['id' => $todo['id']],
-                                            'children' => render('button', ['class' => 'btn btn-outline-primary', 'children' => 'Remove'])
-                                        ]),
+                                        render('div', [
+                                            'class' => 'dropdown-menu dropdown-menu-left',
+                                            'aria-labelledby' => "btn-options-{$todo['id']}",
+                                            'children' => [
+                                                renderComponent(ActionComponent::class, [
+                                                    'type' => 'EDIT_TODO_SHOW',
+                                                    'params' => [
+                                                        'id' => $todo['id'],
+                                                        'formAttributes' => [
+                                                            'style' => 'margin-right: 10px;'
+                                                        ]
+                                                    ],
+                                                    'children' => render('button', ['class' => 'btn dropdown-item', 'type' => 'button', 'children' => 'Edit'])
+                                                ]),
+                                                renderComponent(ActionComponent::class, [
+                                                    'type' => 'REMOVE_TODO',
+                                                    'params' => ['id' => $todo['id']],
+                                                    'children' => render('button', ['class' => 'btn dropdown-item', 'type' => 'button', 'children' => 'Remove'])
+                                                ]),
+                                            ]
+                                        ])
                                     ]
                                 ])
                             ]
                         ]);
-                }, $props['todos'])
+                }, $todos)
             ])
         ]);
     }

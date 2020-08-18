@@ -2,6 +2,7 @@
 
 <head>
     <meta charset="utf-8">
+    <meta name="turbolinks-cache-control" content="no-cache">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Material Design for Bootstrap fonts and icons -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons">
@@ -30,8 +31,17 @@
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/popper.js@1.12.6/dist/umd/popper.js" integrity="sha384-fA23ZRQ3G/J53mElWqVJEGJzU0sTs+SvzG8fXVWP+kJQ1lwFAOkcUOysnlKJC33U" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/bootstrap-material-design@4.1.1/dist/js/bootstrap-material-design.js" integrity="sha384-CauSuKpEqAFajSpkdjv3z9t8E7RlpJ1UP0lKM/+NdtSarroVKu069AlsRPKkFBz9" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/turbolinks@5.2.0/dist/turbolinks.js"></script>
     <script>
-        $(document).ready(() => {
+        Turbolinks.start()
+        document.addEventListener("turbolinks:render", function() {
+            if (window.scrollBeforeRedirect) {
+                document.documentElement.scrollTop = document.body.scrollTop = window.scrollBeforeRedirect;
+                window.scrollBeforeRedirect = null;
+            }
+
+        });
+        document.addEventListener("turbolinks:load", function() {
             $('body').bootstrapMaterialDesign();
             $('input[type=checkbox].react-like-submittable').on('click', (e) => {
                 $('#'+$(e.target).data('form-id')).submit();
@@ -51,10 +61,8 @@
                     method: form.attr('method'),
                     body: new FormData(form[0])
                 })
-                .then((res) => res.text())
-                .then(function(t) {
-                    document.location.reload(true);
-                }).catch(function(err) {
+                .then((res) => Turbolinks.visit(res.headers.get('Location')))
+                .catch(function(err) {
                     console.error(err);
                 });
             });
